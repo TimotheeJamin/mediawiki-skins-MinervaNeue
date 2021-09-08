@@ -67,32 +67,36 @@ final class AdvancedUserMenuBuilder implements IUserMenuBuilder {
 	 */
 	public function getGroup( array $personalTools ): Group {
 		$group = new Group( 'p-personal' );
-		$group->insertEntry( new ProfileMenuEntry( $this->user ) );
-		$talkPage = $this->user->getUserPage()->getTalkPageIfDefined();
-		if ( $talkPage ) {
-			$entry = SingleMenuEntry::create(
-				'userTalk',
-				$this->messageLocalizer->msg( 'mobile-frontend-user-page-talk' )->escaped(),
-				$talkPage->getLocalURL()
-			);
-			$entry->setIcon( 'userTalk', 'before' );
-			$group->insertEntry( $entry );
-		}
-		$sandbox = $personalTools['sandbox']['links'][0] ?? false;
-
-		if ( $sandbox ) {
-			$group->insertEntry( SingleMenuEntry::create(
-				'markup',
-				$sandbox['text'],
-				$sandbox['href']
-			) );
-		}
-		$this->definitions->insertWatchlistMenuItem( $group );
-		$this->definitions->insertContributionsMenuItem( $group );
 		if ( $this->user->isAnon() ) {
 			$this->definitions->insertLogInMenuItem( $group );
 		} else {
-			$this->definitions->insertLogOutMenuItem( $group );
+			$group->insertEntry( new ProfileMenuEntry( $this->user ) );
+			$talkPage = $this->user->getUserPage()->getTalkPageIfDefined();
+			if ( $talkPage ) {
+				$entry = SingleMenuEntry::create(
+					'userTalk',
+					$this->messageLocalizer->msg( 'mobile-frontend-user-page-talk' )->escaped(),
+					$talkPage->getLocalURL()
+				);
+				$entry->setIcon( 'userTalk', 'before' );
+				$group->insertEntry( $entry );
+			}
+			$sandbox = $personalTools['sandbox']['links'][0] ?? false;
+
+			if ( $sandbox ) {
+				$group->insertEntry( SingleMenuEntry::create(
+					'markup',
+					$sandbox['text'],
+					$sandbox['href']
+				) );
+			}
+			$this->definitions->insertWatchlistMenuItem( $group );
+			$this->definitions->insertContributionsMenuItem( $group );
+			if ( $this->user->isAnon() ) {
+				$this->definitions->insertLogInMenuItem( $group );
+			} else {
+				$this->definitions->insertLogOutMenuItem( $group );
+			}
 		}
 		Hooks::run( 'MobileMenu', [ 'user', &$group ] );
 		return $group;
