@@ -71,6 +71,7 @@ final class AdvancedUserMenuBuilder implements IUserMenuBuilder {
 			$this->definitions->insertLogInMenuItem( $group );
 		} else {
 			$group->insertEntry( new ProfileMenuEntry( $this->user ) );
+			$this->definitions->insertPreferencesItem( $group );
 			$talkPage = $this->user->getUserPage()->getTalkPageIfDefined();
 			if ( $talkPage ) {
 				$entry = SingleMenuEntry::create(
