@@ -293,8 +293,8 @@ class MinervaTemplate extends BaseTemplate {
 	 * @return bool
 	 */
 	private function hasPageActions( IContextSource $context ) {
-		return !$this->isSpecialPage && !$this->isMainPage &&
-		   Action::getActionName( $context ) === 'view';
+		return !$this->isSpecialPage && !$this->isMainPage; // &&
+		//    Action::getActionName( $context ) === 'view';
 	}
 
 	/**
