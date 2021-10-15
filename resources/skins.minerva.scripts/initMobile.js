@@ -431,6 +431,12 @@ module.exports = function () {
 		if ( permissions.watch && mw.user.isAnon() ) {
 			ctaDrawers.initWatchstarCta( $watch );
 		}
+	
+		if ( mw.user.isAnon() && !mw.config.get( 'wgIsProbablyEditable' ) ) {
+			var $edit = $( '#ca-ve-edit, #page-actions-edit' );
+			ctaDrawers.initEditCta( $edit );
+		}
+
 		ctaDrawers.initRedlinksCta(
 			$redLinks.filter( function ( _, element ) {
 				// Filter out local User namespace pages.

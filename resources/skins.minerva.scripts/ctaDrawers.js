@@ -86,7 +86,39 @@ function initWatchstarCta( $watchstar ) {
 	} );
 }
 
+function initEditCta( $edit ) {
+	var editCtaDrawer;
+	// show a CTA for anonymous users
+	$edit.on( 'click', function ( ev ) {
+		if ( !editCtaDrawer ) {
+			editCtaDrawer = CtaDrawer( {
+				content: mw.msg( 'minerva-edit-cta' ),
+				queryParams: {
+					warning: 'mobile-frontend-edit-login-action',
+					// campaign: 'mobile_watchPageActionCta',
+					returntoquery: 'action=edit'
+				},
+				onBeforeHide: drawers.discardDrawer,
+				signupQueryParams: {
+					warning: 'mobile-frontend-edit-signup-action'
+				}
+			} );
+		}
+		// If it's already shown dont display again
+		// (if user is clicking fast since we are reusing the drawer
+		// this might result in the drawer opening and closing)
+		if ( !editCtaDrawer.$el[ 0 ].parentNode ) {
+			drawers.displayDrawer( editCtaDrawer, { hideOnScroll: true } );
+		}
+		// prevent default to stop the user
+		// being navigated to Special:UserLogin
+		ev.preventDefault();
+		ev.stopPropagation();
+	} );
+}
+
 module.exports = {
 	initWatchstarCta: initWatchstarCta,
+	initEditCta: initEditCta,
 	initRedlinksCta: initRedlinksCta
 };
