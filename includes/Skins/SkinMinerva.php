@@ -566,9 +566,9 @@ class SkinMinerva extends SkinTemplate {
 			$pageTitle = '';
 			$msg = $this->msg( 'mobile-frontend-logged-in-homepage-notification', $user->getName() );
 
-			if ( $user->isLoggedIn() && !$msg->isDisabled() ) {
-				$pageTitle = $msg->text();
-			}
+			// if ( $user->isLoggedIn() && !$msg->isDisabled() ) {
+			// 	$pageTitle = $msg->text();
+			// }
 
 			$out->setPageTitle( $pageTitle );
 		} elseif ( $this->isTalkPageWithViewAction() ) {
